@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class MovieDataAcessLayer2
+    public class MovieDataAcessLayerEF
     {
         MovieAppDBContext movieAppDBContext;
 
-        public MovieDataAcessLayer2(MovieAppDBContext context)
+        public MovieDataAcessLayerEF(MovieAppDBContext context)
         {
             movieAppDBContext = context;
         }

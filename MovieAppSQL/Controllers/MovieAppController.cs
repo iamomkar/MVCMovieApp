@@ -11,13 +11,13 @@ namespace MovieAppSQL.Controllers
 {
     public class MovieAppController : Controller
     {
-        //MovieDataAcessLayer movieDataAcessLayer = new MovieDataAcessLayer();
-        MovieDataAcessLayer2 movieDataAcessLayer;
+        //MovieDataAcessLayerADO movieDataAcessLayer = new MovieDataAcessLayerADO();
+        MovieDataAcessLayerEF movieDataAcessLayer;
 
 
         public MovieAppController(MovieAppDBContext context)
         {
-            movieDataAcessLayer = new MovieDataAcessLayer2(context);
+            movieDataAcessLayer = new MovieDataAcessLayerEF(context);
         }
 
         public IActionResult Index()
