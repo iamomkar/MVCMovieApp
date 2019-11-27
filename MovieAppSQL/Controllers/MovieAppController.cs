@@ -4,12 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieAppSQL.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieAppSQL.Controllers
 {
     public class MovieAppController : Controller
     {
-        MovieDataAcessLayer movieDataAcessLayer = new MovieDataAcessLayer();
+        //MovieDataAcessLayer movieDataAcessLayer = new MovieDataAcessLayer();
+        MovieDataAcessLayer2 movieDataAcessLayer;
+
+
+        public MovieAppController(MovieAppDBContext context)
+        {
+            movieDataAcessLayer = new MovieDataAcessLayer2(context);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -21,18 +31,25 @@ namespace MovieAppSQL.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddMovie(Movie movie)
+        public IActionResult AddMovie(Movie movie)
         {
-            movieDataAcessLayer.AddMovie(movie);
-            return RedirectToAction("ViewAll", "MovieApp");
-;        }
+            if (ModelState.IsValid)
+            {
+                movieDataAcessLayer.Add(movie);
+                return RedirectToAction("ViewAll");
+            }
+            else
+            {
+                return View(movie);
+            }
+            
+        }
 
         public IActionResult ViewAll()
         {
-            List<Movie> movies = new List<Movie>();
-            movies = movieDataAcessLayer.GetAllMovies();
-            return View(movies);
+            return View(movieDataAcessLayer.Movies());
         }
+
 
         [HttpGet]
         public IActionResult Edit(int? id)
@@ -42,17 +59,16 @@ namespace MovieAppSQL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Movie movie)
+        public IActionResult Edit(Movie movie)
         {
-            movieDataAcessLayer.UpdateMovieDetails(movie);
+             movieDataAcessLayer.Update(movie);
             return RedirectToAction("ViewAll");
         }
 
-
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            movieDataAcessLayer.DeleteMovie(id);
+            movieDataAcessLayer.Remove(id);
             return RedirectToAction("ViewAll");
         }
 

@@ -12,14 +12,14 @@ namespace MovieAppSQL.Models
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 
-        public void AddMovie(Movie movie)
+        public void Add(Movie movie)
         {
             using SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("spAddMovie", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@MovieName", movie.MovieName);
-            cmd.Parameters.AddWithValue("@RYear", movie.Year);
+            cmd.Parameters.AddWithValue("@RYear", movie.ReleaseYear);
             cmd.Parameters.AddWithValue("@Genre", movie.Genre);
             cmd.Parameters.AddWithValue("@Rating", movie.Rating);
 
@@ -29,7 +29,7 @@ namespace MovieAppSQL.Models
             con.Close();
         }
 
-        public List<Movie> GetAllMovies()
+        public IEnumerable<Movie> Movies()
         {
             List<Movie> movies = new List<Movie>();
 
@@ -47,7 +47,7 @@ namespace MovieAppSQL.Models
 
                     mv.MovieId = Convert.ToInt32(rdr["MovieId"]);
                     mv.MovieName = rdr["MovieName"].ToString();
-                    mv.Year = rdr["ReleaseYear"].ToString();
+                    mv.ReleaseYear = rdr["ReleaseYear"].ToString();
                     mv.Genre = rdr["Genre"].ToString();
                     mv.Rating = Convert.ToInt32(rdr["Rating"].ToString());
 
@@ -59,7 +59,7 @@ namespace MovieAppSQL.Models
             return movies;
         }
 
-        public void DeleteMovie(int? id)
+        public void Remove(int? id)
         {
             using SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("spDeleteMovie", con);
@@ -73,9 +73,9 @@ namespace MovieAppSQL.Models
             con.Close();
         }
 
-        public void UpdateMovieDetails(Movie movie)
+        public void Update(Movie movie)
         {
-            Debug.WriteLine(movie.MovieId + movie.MovieName + movie.Year + movie.Genre + movie.Rating);
+            Debug.WriteLine(movie.MovieId + movie.MovieName + movie.ReleaseYear + movie.Genre + movie.Rating);
 
             using SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("spUpdateMovie", con);
@@ -83,7 +83,7 @@ namespace MovieAppSQL.Models
 
             cmd.Parameters.AddWithValue("@Id", movie.MovieId);
             cmd.Parameters.AddWithValue("@Name", movie.MovieName);
-            cmd.Parameters.AddWithValue("@Year", movie.Year);
+            cmd.Parameters.AddWithValue("@Year", movie.ReleaseYear);
             cmd.Parameters.AddWithValue("@Genre", movie.Genre);
             cmd.Parameters.AddWithValue("@Rating", movie.Rating);
 
@@ -110,7 +110,7 @@ namespace MovieAppSQL.Models
                 {
                     movie.MovieId = Convert.ToInt32(rdr["MovieId"]);
                     movie.MovieName = rdr["MovieName"].ToString();
-                    movie.Year = rdr["ReleaseYear"].ToString();
+                    movie.ReleaseYear = rdr["ReleaseYear"].ToString();
                     movie.Genre = rdr["Genre"].ToString();
                     movie.Rating = Convert.ToInt32(rdr["Rating"]);
                 }

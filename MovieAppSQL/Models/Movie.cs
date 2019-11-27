@@ -16,7 +16,7 @@ namespace MovieAppSQL.Models
 
         [Required]
         [Range(1900, 2020)]
-        public string Year { get; set; }
+        public string ReleaseYear { get; set; }
 
         [Required]
         public string Genre { get; set; }
