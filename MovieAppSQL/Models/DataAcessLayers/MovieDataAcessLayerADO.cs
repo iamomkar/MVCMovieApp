@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieAppSQL.Models.DataAcessLayers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class MovieDataAcessLayerADO
+    public class MovieDataAcessLayerADO : IDataAccessLayer
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 

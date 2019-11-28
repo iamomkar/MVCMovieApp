@@ -9,6 +9,7 @@ namespace MovieAppSQL.Models
 {
     public class Movie
     { 
+        [Key]
         public int MovieId { get; set; }
 
         [Required]

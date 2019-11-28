@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using MovieAppSQL.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MovieAppSQL.Models.DataAcessLayers;
 
 namespace MovieAppSQL.Controllers
 {
     public class MovieAppController : Controller
     {
-        //MovieDataAcessLayerADO movieDataAcessLayer = new MovieDataAcessLayerADO();
-        MovieDataAcessLayerEF movieDataAcessLayer;
-
+        IDataAccessLayer movieDataAcessLayer;
+          
 
         public MovieAppController(MovieAppDBContext context)
         {
-            movieDataAcessLayer = new MovieDataAcessLayerEF(context);
+            movieDataAcessLayer = new MovieDataAcessLayerADO();
         }
 
         public IActionResult Index()
@@ -66,7 +66,7 @@ namespace MovieAppSQL.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             movieDataAcessLayer.Remove(id);
             return RedirectToAction("ViewAll");

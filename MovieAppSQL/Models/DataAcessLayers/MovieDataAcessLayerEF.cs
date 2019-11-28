@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieAppSQL.Models.DataAcessLayers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class MovieDataAcessLayerEF
+    public class MovieDataAcessLayerEF : IDataAccessLayer
     {
         MovieAppDBContext movieAppDBContext;
 
