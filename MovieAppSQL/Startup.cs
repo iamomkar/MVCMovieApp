@@ -25,6 +25,14 @@ namespace MovieAppSQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddDbContext<MovieAppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MovieDatabase")));
             services.AddControllersWithViews();
         }
@@ -44,7 +52,7 @@ namespace MovieAppSQL
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

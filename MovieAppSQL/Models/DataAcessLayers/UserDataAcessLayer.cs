@@ -12,21 +12,29 @@ namespace MovieAppSQL.Models
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (GetUserDetails(user.EmailID).EmailID != user.EmailID)
             {
-                SqlCommand cmd = new SqlCommand("spAddUser", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("spAddUser", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
-                cmd.Parameters.AddWithValue("@LastName", user.LastName);
-                cmd.Parameters.AddWithValue("@EmailId", user.EmailID);
-                cmd.Parameters.AddWithValue("@Password", user.Password);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@EmailId", user.EmailID);
+                    cmd.Parameters.AddWithValue("@Password", user.Password);
 
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -47,6 +55,8 @@ namespace MovieAppSQL.Models
             }
 
         }
+
+
 
 
         public bool CheckLogin(User user)
@@ -71,13 +81,40 @@ namespace MovieAppSQL.Models
                         return true;
                     }
                     else
-                    {
+                    { 
                         return false;
                     }
                 }
                 return false;
             }
 
+        }
+
+        public User GetUserDetails(string emailId)
+        {
+            User user = new User();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM MovieUser WHERE EmailId =@id", con);
+                SqlParameter idParameter = cmd.Parameters.Add("@id", SqlDbType.VarChar,30);
+                idParameter.Value = emailId;
+                con.Open();
+                cmd.Prepare();
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    user.UserId = Convert.ToInt32(rdr["UserId"]);
+                    user.EmailID = rdr["EmailId"].ToString();
+                    user.FirstName = rdr["FirstName"].ToString();
+                    user.LastName = rdr["LastName"].ToString();
+                    user.Password = rdr["Password"].ToString();
+                }
+                cmd.Dispose();
+            }
+
+            return user;
         }
 
     }

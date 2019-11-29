@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieAppSQL.Models;
@@ -38,6 +39,7 @@ namespace MovieAppSQL.Controllers
 
             if (success)
             {
+                HttpContext.Session.SetString("email", user.EmailID);
                 return RedirectToAction("Index", "MovieApp");
             }
             else
@@ -57,9 +59,17 @@ namespace MovieAppSQL.Controllers
         {
             if (ModelState.IsValid)
             {
-                userDataAcessLayer.AddUser(user);
-                ViewData["EmailID"] = user.EmailID;
-                return View("Login");
+                bool success = userDataAcessLayer.AddUser(user);
+                if (success)
+                {
+                    ViewData["EmailID"] = user.EmailID;
+                    return View("Login");
+                }
+                else
+                {
+                    ViewData["Error"] = "Registraion Failed User Already Exists";
+                    return View();
+                }
             }
 
             return View(user);

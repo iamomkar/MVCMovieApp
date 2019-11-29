@@ -43,8 +43,8 @@
                         @Html.DisplayFor(modelItem => item.Rating)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> | 
+                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
                     </td>
                 </tr>
             }

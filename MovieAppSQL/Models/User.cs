@@ -8,6 +8,8 @@ namespace MovieAppSQL.Models
 {
     public class User
     {
+        [Key]
+        public int UserId { get; set; }
 
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "First name required")]

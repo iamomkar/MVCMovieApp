@@ -13,6 +13,7 @@
             <article class="card-body">
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="text-danger">@ViewData["Error"]</div>
                     <div class="form-row">
                         <div class="col form-group">
                             <label asp-for="FirstName" class="control-label"></label>
