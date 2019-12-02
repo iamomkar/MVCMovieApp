@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieAppSQL.Models;
+using MediatR;
 
 namespace MovieAppSQL.Controllers
 {
@@ -15,10 +16,12 @@ namespace MovieAppSQL.Controllers
         UserDataAcessLayer userDataAcessLayer = new UserDataAcessLayer();
 
         private readonly ILogger<HomeController> _logger;
+        private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         public IActionResult Index()
@@ -35,8 +38,9 @@ namespace MovieAppSQL.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            bool success =  userDataAcessLayer.CheckLogin(user);
-
+            var result = _mediator.Send(new RequestModel() { Email = user.EmailID,Password = user.Password });
+            //bool success =  userDataAcessLayer.CheckLogin(user);
+            bool success = result.Result.Success;
             if (success)
             {
                 HttpContext.Session.SetString("email", user.EmailID);

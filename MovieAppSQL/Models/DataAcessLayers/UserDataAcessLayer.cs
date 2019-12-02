@@ -57,31 +57,26 @@ namespace MovieAppSQL.Models
         }
 
 
-
-
-        public bool CheckLogin(User user)
+        public bool CheckLogin(string email,string pass)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("spCheckLoginUser", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EmailId", user.EmailID);
-                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@EmailId", email);
+                cmd.Parameters.AddWithValue("@Password", pass);
 
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    string email = rdr["EmailId"].ToString();
-                    string pass = rdr["Password"].ToString();
-
-                    if (email == user.EmailID && pass == user.Password)
+                    if (email == rdr["EmailId"].ToString() && pass == rdr["Password"].ToString())
                     {
                         return true;
                     }
                     else
-                    { 
+                    {
                         return false;
                     }
                 }
