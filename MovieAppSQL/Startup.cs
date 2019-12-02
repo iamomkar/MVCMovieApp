@@ -35,6 +35,11 @@ namespace MovieAppSQL
             services.AddDistributedMemoryCache();
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddTransient<IDataAccessLayer, MovieDataAcessLayerEF>();
+            services.AddTransient<IUserDataAcessLayer, UserDataAcessLayer>();
+
+
             //services.AddTransient<IRequestHandler<RequestModel, ResponseModelResult>, LoginHandler>();
 
 

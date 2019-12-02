@@ -13,15 +13,13 @@ namespace MovieAppSQL.Controllers
 {
     public class HomeController : Controller
     {
-        UserDataAcessLayer userDataAcessLayer = new UserDataAcessLayer();
-
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUserDataAcessLayer _userDataAcessLayer;
         private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger, IMediator mediator)
-        {
-            _logger = logger;
+        public HomeController(IMediator mediator,IUserDataAcessLayer userDataAcessLayer)
+        {            
             _mediator = mediator;
+            _userDataAcessLayer = userDataAcessLayer;
         }
 
         public IActionResult Index()
@@ -39,9 +37,7 @@ namespace MovieAppSQL.Controllers
         public IActionResult Login(User user)
         {
             var result = _mediator.Send(new RequestModel() { Email = user.EmailID,Password = user.Password });
-            //bool success =  userDataAcessLayer.CheckLogin(user);
-            bool success = result.Result.Success;
-            if (success)
+            if (result.Result.Success)
             {
                 HttpContext.Session.SetString("email", user.EmailID);
                 return RedirectToAction("Index", "MovieApp");
@@ -63,7 +59,7 @@ namespace MovieAppSQL.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool success = userDataAcessLayer.AddUser(user);
+                bool success = _userDataAcessLayer.AddUser(user);
                 if (success)
                 {
                     ViewData["EmailID"] = user.EmailID;
@@ -88,7 +84,7 @@ namespace MovieAppSQL.Controllers
         [HttpPost]
         public ActionResult ChangePassword(User user)
         {
-            bool success = userDataAcessLayer.ChangePassword(user.EmailID, user.Password);
+            bool success = _userDataAcessLayer.ChangePassword(user.EmailID, user.Password);
 
             if (success)
             {

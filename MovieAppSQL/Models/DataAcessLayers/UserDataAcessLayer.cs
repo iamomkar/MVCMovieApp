@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class UserDataAcessLayer
+    public class UserDataAcessLayer : IUserDataAcessLayer
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 
@@ -57,7 +57,7 @@ namespace MovieAppSQL.Models
         }
 
 
-        public bool CheckLogin(string email,string pass)
+        public bool CheckLogin(string email, string pass)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -92,7 +92,7 @@ namespace MovieAppSQL.Models
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT * FROM MovieUser WHERE EmailId =@id", con);
-                SqlParameter idParameter = cmd.Parameters.Add("@id", SqlDbType.VarChar,30);
+                SqlParameter idParameter = cmd.Parameters.Add("@id", SqlDbType.VarChar, 30);
                 idParameter.Value = emailId;
                 con.Open();
                 cmd.Prepare();
