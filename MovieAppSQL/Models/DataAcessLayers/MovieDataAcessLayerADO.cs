@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class MovieDataAcessLayerADO : IDataAccessLayer
+    public class MovieDataAcessLayerADO : IMovieDataAccessLayer
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 

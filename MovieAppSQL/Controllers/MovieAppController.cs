@@ -13,10 +13,10 @@ namespace MovieAppSQL.Controllers
 {
     public class MovieAppController : Controller
     {
-        IDataAccessLayer _movieDataAcessLayer;
+        private readonly IMovieDataAccessLayer _movieDataAcessLayer;
 
 
-        public MovieAppController(IDataAccessLayer movieDataAcessLayer)
+        public MovieAppController(IMovieDataAccessLayer movieDataAcessLayer)
         {
             _movieDataAcessLayer = movieDataAcessLayer;
         }

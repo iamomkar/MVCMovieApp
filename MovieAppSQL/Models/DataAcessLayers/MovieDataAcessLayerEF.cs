@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models
 {
-    public class MovieDataAcessLayerEF : IDataAccessLayer
+    public class MovieDataAcessLayerEF : IMovieDataAccessLayer
     {
         MovieAppDBContext movieAppDBContext;
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MovieAppSQL.Models.DataAcessLayers
 {
-    public interface IDataAccessLayer
+    public interface IMovieDataAccessLayer
     {
         void Add(Movie movie);
 
