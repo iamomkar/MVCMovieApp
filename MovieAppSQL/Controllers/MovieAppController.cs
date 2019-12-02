@@ -13,11 +13,12 @@ namespace MovieAppSQL.Controllers
 {
     public class MovieAppController : Controller
     {
-        IDataAccessLayer movieDataAcessLayer;
+        IDataAccessLayer _movieDataAcessLayer;
 
-        public MovieAppController(MovieAppDBContext context)
+
+        public MovieAppController(IDataAccessLayer movieDataAcessLayer)
         {
-            movieDataAcessLayer = new MovieDataAcessLayerADO();
+            _movieDataAcessLayer = movieDataAcessLayer;
         }
 
         public IActionResult Index()
@@ -54,7 +55,7 @@ namespace MovieAppSQL.Controllers
             }
             if (ModelState.IsValid)
             {
-                movieDataAcessLayer.Add(movie);
+                _movieDataAcessLayer.Add(movie);
                 return RedirectToAction("ViewAll");
             }
             else
@@ -70,7 +71,7 @@ namespace MovieAppSQL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View(movieDataAcessLayer.Movies());
+            return View(_movieDataAcessLayer.Movies());
         }
 
 
@@ -81,7 +82,7 @@ namespace MovieAppSQL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            Movie movie = movieDataAcessLayer.GetMovieDetails(id);
+            Movie movie = _movieDataAcessLayer.GetMovieDetails(id);
             return View(movie);
         }
 
@@ -92,7 +93,7 @@ namespace MovieAppSQL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            movieDataAcessLayer.Update(movie);
+            _movieDataAcessLayer.Update(movie);
             return RedirectToAction("ViewAll");
         }
 
@@ -103,7 +104,7 @@ namespace MovieAppSQL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            movieDataAcessLayer.Remove(id);
+            _movieDataAcessLayer.Remove(id);
             return RedirectToAction("ViewAll");
         }
 
