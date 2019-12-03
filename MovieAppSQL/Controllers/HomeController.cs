@@ -13,13 +13,11 @@ namespace MovieAppSQL.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserDataAcessLayer _userDataAcessLayer;
         private readonly IMediator _mediator;
 
-        public HomeController(IMediator mediator,IUserDataAcessLayer userDataAcessLayer)
+        public HomeController(IMediator mediator)
         {            
             _mediator = mediator;
-            _userDataAcessLayer = userDataAcessLayer;
         }
 
         public IActionResult Index()
@@ -55,24 +53,24 @@ namespace MovieAppSQL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User user)
+        public ActionResult Register(RegisterRequestModel registerRequestModel)
         {
             if (ModelState.IsValid)
             {
-                bool success = _userDataAcessLayer.AddUser(user);
-                if (success)
+                var result = _mediator.Send(registerRequestModel);
+                if (result.Result.Success)
                 {
-                    ViewData["EmailID"] = user.EmailID;
+                    ViewData["EmailID"] = registerRequestModel.EmailID;
                     return View("Login");
                 }
                 else
                 {
                     ViewData["Error"] = "Registraion Failed User Already Exists";
-                    return View();
+                    return View(registerRequestModel);
                 }
             }
 
-            return View(user);
+            return View();
             
         }
 
@@ -82,11 +80,10 @@ namespace MovieAppSQL.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(User user)
+        public ActionResult ChangePassword(ChangePasswordRequestModel changePasswordRequestModel)
         {
-            bool success = _userDataAcessLayer.ChangePassword(user.EmailID, user.Password);
-
-            if (success)
+            var result = _mediator.Send(changePasswordRequestModel);
+            if (result.Result.Success)
             {
                 return RedirectToAction("Login", "Home");
             }

@@ -17,6 +17,8 @@ using System.Reflection;
 using MovieAppSQL.Controllers;
 using MediatR.Pipeline;
 using MovieAppSQL.Models.DataAcessLayers;
+using AutoMapper;
+using MovieAppSQL.Models.Mapper;
 
 namespace MovieAppSQL
 {
@@ -34,20 +36,37 @@ namespace MovieAppSQL
         {
             services.AddDistributedMemoryCache();
 
+            //MediatR
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            //DAL 
             services.AddTransient<IMovieDataAccessLayer, MovieDataAcessLayerEF>();
             services.AddTransient<IUserDataAcessLayer, UserDataAcessLayer>();
-            
 
+            //Mapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            //Session
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            //EntityFramework DB Context
             services.AddDbContext<MovieAppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MovieDatabase")));
+            
+            //AddMVC
             services.AddControllersWithViews();
+
+
             /*
             //Meditor
             var builder = new ContainerBuilder();
