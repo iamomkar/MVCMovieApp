@@ -22,9 +22,7 @@ namespace MovieAppSQL.Controllers
         public IActionResult Index()
         {
             var user = _mediator.Send(new GetUserDetailsRequestModel { EmailID = HttpContext.Session.GetString("email") });
-            ViewData["username"] = user.Result.FirstName;
-            ViewData["email"] = user.Result.EmailID;
-            return View();
+            return View(user.Result);
         }
 
         [Authorize]

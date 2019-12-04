@@ -1,10 +1,10 @@
-﻿
+﻿@model MovieAppSQL.Models.GetUserDetailsResponseModelResult
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
 <div class="text-center">
-    <h1 class="display-3">Welcome @ViewData["username"], to Movies App</h1>
-    <h1 class="text-secondary">You are now signed in as @ViewData["email"].</h1>
+    <h1 class="display-3">Welcome @Html.DisplayFor(model => model.FirstName), to Movies App</h1>
+    <h1 class="text-secondary">You are now signed in as @Html.DisplayFor(model => model.EmailID).</h1>
 </div>
