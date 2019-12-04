@@ -93,6 +93,11 @@ namespace MovieAppSQL.Controllers
             }
         }
 
+        public IActionResult InvalidSession()
+        {
+            return View();
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
