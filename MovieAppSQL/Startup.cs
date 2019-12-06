@@ -65,40 +65,6 @@ namespace MovieAppSQL
             
             //AddMVC
             services.AddControllersWithViews();
-
-
-            /*
-            //Meditor
-            var builder = new ContainerBuilder();
-            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
-            
-            var mediatrOpenTypes = new[]
-              {
-                typeof(IRequestHandler<,>),
-                typeof(INotificationHandler<>),
-            };
-
-            foreach (var mediatrOpenType in mediatrOpenTypes)
-            {
-                builder
-                    .RegisterAssemblyTypes(typeof(LoginHandler).GetTypeInfo().Assembly)
-                    .AsClosedTypesOf(mediatrOpenType)
-                    .AsImplementedInterfaces();
-            }
-
-
-            // It appears Autofac returns the last registered types first
-            builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.Register<ServiceFactory>(ctx =>
-            {
-                var c = ctx.Resolve<IComponentContext>();
-                return t => c.Resolve(t);
-            });
-            builder.RegisterType<Mediator>().As<IMediator>();
-            builder.RegisterType<MovieDataAcessLayerEF>().As<IDataAccessLayer>();
-            IContainer container = builder.Build();
-            container.Resolve<IMediator>();*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

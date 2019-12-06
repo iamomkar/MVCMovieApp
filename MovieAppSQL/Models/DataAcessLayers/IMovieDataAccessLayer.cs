@@ -7,7 +7,7 @@ namespace MovieAppSQL.Models.DataAcessLayers
 {
     public interface IMovieDataAccessLayer
     {
-        void Add(Movie movie);
+        bool Add(Movie movie);
 
         IEnumerable<Movie> Movies();
 

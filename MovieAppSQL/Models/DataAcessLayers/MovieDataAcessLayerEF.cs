@@ -16,10 +16,28 @@ namespace MovieAppSQL.Models
             movieAppDBContext = context;
         }
 
-        public void Add(Movie movie)
+        public bool Add(Movie movie)
         {
+            if(movie.Rating > 10  || movie.Rating < 1)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(movie.Rating));
+
+            }
+            else if (Convert.ToInt32(movie.ReleaseYear) < 1900 || Convert.ToInt32(movie.ReleaseYear) > 2020)
+            {
+                throw new ArgumentOutOfRangeException(movie.ReleaseYear);
+            }
+            else if (string.IsNullOrEmpty(movie.MovieName))
+            {
+                throw new ArgumentNullException(movie.MovieName);
+            }
+            else if (string.IsNullOrEmpty(movie.Genre))
+            {
+                throw new ArgumentNullException(movie.Genre);
+            }
             movieAppDBContext.Add(movie);
             movieAppDBContext.SaveChanges();
+            return true;
         }
 
         public  IEnumerable<Movie> Movies()

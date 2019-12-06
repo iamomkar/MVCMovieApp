@@ -13,7 +13,7 @@ namespace MovieAppSQL.Models
     {
         string connectionString = "Server=FSIND-LT-18\\SQLEXPRESS;Database=MovieAppDB;Trusted_Connection=True;";
 
-        public void Add(Movie movie)
+        public bool Add(Movie movie)
         {
             using SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("spAddMovie", con);
@@ -28,6 +28,7 @@ namespace MovieAppSQL.Models
             cmd.ExecuteNonQuery();
             cmd.Dispose();
             con.Close();
+            return true;
         }
 
         public IEnumerable<Movie> Movies()
