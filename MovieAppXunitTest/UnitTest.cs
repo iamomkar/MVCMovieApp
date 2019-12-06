@@ -12,13 +12,13 @@ namespace MovieAppXunitTest
 {
     public class UnitTest
     { 
-        private Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
+         
         
         [Fact]
         public void Test_Invalid_Rating()
         {
             var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-
+            Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 11 };
             Assert.Throws<ArgumentOutOfRangeException>(() => movieDataAcess.Add(movie));
 
         }
@@ -27,7 +27,7 @@ namespace MovieAppXunitTest
         public void Test_Invalid_ReleaseDate()
         {
             var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-
+            Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2022", Rating = 10 };
             Assert.Throws<ArgumentOutOfRangeException>(() => movieDataAcess.Add(movie));
 
         }
@@ -36,7 +36,7 @@ namespace MovieAppXunitTest
         public void Test_Invalid_MovieName()
         {
             var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-
+            Movie movie = new Movie { Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
             Assert.Throws<ArgumentNullException>(() => movieDataAcess.Add(movie));
 
         }
@@ -45,7 +45,7 @@ namespace MovieAppXunitTest
         public void Test_Invalid_Genre()
         {
             var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-
+            Movie movie = new Movie { MovieName = "Nikhil", ReleaseYear = "2000", Rating = 10 };
             Assert.Throws<ArgumentNullException>(() => movieDataAcess.Add(movie));
 
         }
@@ -54,7 +54,7 @@ namespace MovieAppXunitTest
         public void Test_Valid_Movie()
         {
             var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-
+            Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
             Assert.True(movieDataAcess.Add(movie));
 
         }
