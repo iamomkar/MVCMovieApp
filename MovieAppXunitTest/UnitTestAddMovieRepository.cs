@@ -1,19 +1,13 @@
 using System;
 using Xunit;
-using MovieAppSQL.Controllers;
-using MovieAppSQL.Models.DataAcessLayers;
-using System.Threading.Tasks;
-using Moq;
 using MovieAppSQL.Models;
-using MediatR;
-using AutoMapper;
+using Moq;
+using MovieAppSQL.Models.DataAcessLayers;
 
 namespace MovieAppXunitTest
 {
-    public class UnitTest
-    { 
-         
-        
+    public class UnitTestAddMovieRepository
+    {
         [Fact]
         public void Test_Invalid_Rating()
         {
@@ -53,10 +47,14 @@ namespace MovieAppXunitTest
         [Fact]
         public void Test_Valid_Movie()
         {
-            var movieDataAcess = new MovieDataAcessLayerEF(new MovieAppDBContext());
-            Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
-            Assert.True(movieDataAcess.Add(movie));
+            var mockMovie = new Mock<Movie>();
 
+            var movieDataAcess = new Mock<IMovieDataAccessLayer>();
+
+            movieDataAcess.Setup(dal => dal.Add(It.IsAny<Movie>()))
+                .Returns(true);
+            Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
+            Assert.True(movieDataAcess.Object.Add(movie));
         }
     }
 }
