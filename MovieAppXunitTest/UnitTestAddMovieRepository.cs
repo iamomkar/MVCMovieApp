@@ -47,12 +47,16 @@ namespace MovieAppXunitTest
         [Fact]
         public void Test_Valid_Movie()
         {
-            var mockMovie = new Mock<Movie>();
-
             var movieDataAcess = new Mock<IMovieDataAccessLayer>();
 
-            movieDataAcess.Setup(dal => dal.Add(It.IsAny<Movie>()))
+            movieDataAcess.Setup(dal => dal.Add(It.Is<Movie>(mv => !string.IsNullOrEmpty(mv.MovieName)
+            == !string.IsNullOrEmpty(mv.Genre)
+            == !string.IsNullOrEmpty(mv.ReleaseYear)
+            == (mv.Rating <= 0)
+            == (mv.Rating > 10)
+            )))
                 .Returns(true);
+
             Movie movie = new Movie { MovieName = "Nikhil", Genre = "Comedy", ReleaseYear = "2000", Rating = 10 };
             Assert.True(movieDataAcess.Object.Add(movie));
         }
